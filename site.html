@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cintepide — Web Developer | HTML, CSS &amp; JavaScript</title>
+<meta name="description" content="Cintepide — beginner web developer building clean, modern and responsive websites with HTML, CSS and JavaScript. Landing pages, interactive elements and bug fixing.">
+<meta name="theme-color" content="#ffffff">
+<meta name="author" content="Cintepide">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cintepide — Web Developer">
+<meta property="og:description" content="I build clean, modern and responsive websites with HTML, CSS and JavaScript.">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%233157f5'/><text x='16' y='22' font-family='Arial,sans-serif' font-size='17' font-weight='700' fill='%23fff' text-anchor='middle'>C</text></svg>">
+
+<style>
+/* ============================================================
+   1. TOKENS
+   ============================================================ */
+:root{
+  --bg:            #ffffff;
+  --bg-soft:       #f5f7fa;
+  --surface:       #ffffff;
+
+  --text:          #101319;
+  --text-muted:    #5b6572;
+  --text-soft:     #8a93a0;
+
+  --border:        #e5e8ee;
+  --border-strong: #d3d8e2;
+
+  --accent:        #3157f5;
+  --accent-dark:   #2242c9;
+  --accent-soft:   #eef2ff;
+
+  --radius-sm: 10px;
+  --radius:    16px;
+  --radius-lg: 22px;
+
+  --shadow-sm: 0 1px 2px rgba(16,19,25,.05);
+  --shadow:    0 10px 30px -12px rgba(16,19,25,.16);
+  --shadow-lg: 0 26px 60px -26px rgba(16,19,25,.24);
+
+  --max:       1120px;
+  --header-h:  66px;
+
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+/* ============================================================
+   2. RESET / BASE
+   ============================================================ */
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+main{ overflow-x:clip; }
+
+h1,h2,h3,h4,p,ul,figure{ margin:0; }
+ul{ padding:0; list-style:none; }
+img,svg{ display:block; max-width:100%; }
+a{ color:inherit; }
+
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+  border-radius:6px;
+}
+
+::selection{
+  background:var(--accent);
+  color:#fff;
+}
+
+/* ============================================================
+   3. LAYOUT HELPERS
+   ============================================================ */
+.container{
+  width:100%;
+  max-width:var(--max);
+  margin-inline:auto;
+  padding-inline:20px;
+}
+
+section[id]{ scroll-margin-top:calc(var(--header-h) + 14px); }
+
+.section{
+  padding:70px 0;
+  position:relative;
+}
+
+.section--soft{
+  background:var(--bg-soft);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+
+@media (min-width:768px){
+  .section{ padding:96px 0; }
+}
+@media (min-width:1200px){
+  .container{ padding-inline:32px; }
+}
+
+/* --- skip link --- */
+.skip-link{
+  position:absolute;
+  left:-9999px;
+  top:0;
+  z-index:200;
+  background:var(--text);
+  color:#fff;
+  padding:.7rem 1.1rem;
+  border-radius:0 0 var(--radius-sm) 0;
+  font-size:.9rem;
+  font-weight:600;
+  text-decoration:none;
+}
+.skip-link:focus{
+  left:0;
+}
+
+/* ============================================================
+   4. SECTION HEADINGS
+   ============================================================ */
+.section-head{
+  max-width:640px;
+  margin-bottom:38px;
+}
+
+.section-head__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.65rem;
+}
+.section-head__eyebrow::before{
+  content:"";
+  width:22px;
+  height:2px;
+  border-radius:2px;
+  background:var(--accent);
+}
+
+.section-head__title{
+  font-size:clamp(1.6rem,4.4vw,2.25rem);
+  line-height:1.2;
+  letter-spacing:-.02em;
+  font-weight:700;
+  color:var(--text);
+}
+
+.section-head__text{
+  margin-top:.85rem;
+  color:var(--text-muted);
+  font-size:1rem;
+}
+
+@media (min-width:768px){
+  .section-head{ margin-bottom:52px; }
+}
+
+/* ============================================================
+   5. BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.55rem;
+  padding:.82rem 1.45rem;
+  border-radius:999px;
+  border:1px solid transparent;
+  font-family:inherit;
+  font-size:.94rem;
+  font-weight:600;
+  line-height:1;
+  text-decoration:none;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:transform .22s var(--ease),
+             background-color .22s ease,
+             border-color .22s ease,
+             color .22s ease,
+             box-shadow .22s ease;
+}
+
+.btn--primary{
+  background:var(--accent);
+  color:#fff;
+  box-shadow:0 10px 24px -12px rgba(49,87,245,.95);
+}
+.btn--primary:hover{
+  background:var(--accent-dark);
+  transform:translateY(-2px);
+  box-shadow:0 14px 30px -12px rgba(49,87,245,1);
+}
+
+.btn--ghost{
+  background:transparent;
+  color:var(--text);
+  border-color:var(--border-strong);
+}
+.btn--ghost:hover{
+  border-color:var(--text);
+  transform:translateY(-2px);
+}
+
+.btn--block{
+  width:100%;
+}
+
+.btn__icon{
+  width:16px;
+  height:16px;
+  flex:none;
+}
+
+/* ============================================================
+   6. HEADER / NAV
+   ============================================================ */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.86);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--border);
+}
+
+.header__inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:var(--header-h);
+  gap:1rem;
+}
+
+.brand{
+  display:inline-flex;
+  align-items:baseline;
+  font-size:1.08rem;
+  font-weight:800;
+  letter-spacing:-.02em;
+  text-decoration:none;
+  color:var(--text);
+  transition:opacity .2s ease;
+}
+.brand:hover{ opacity:.72; }
+.brand__dot{ color:var(--accent); }
+
+/* --- burger --- */
+.nav-toggle{
+  display:inline-flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  width:44px;
+  height:44px;
+  padding:0 11px;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:12px;
+  cursor:pointer;
+  transition:border-color .2s ease, background-color .2s ease;
+}
+.nav-toggle:hover{ border-color:var(--border-strong); background:var(--bg-soft); }
+
+.nav-toggle__bar{
+  display:block;
+  height:2px;
+  width:100%;
+  border-radius:2px;
+  background:var(--text);
+  transition:transform .26s var(--ease), opacity .18s ease;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1){
+  transform:translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2){
+  opacity:0;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3){
+  transform:translateY(-7px) rotate(-45deg);
+}
+
+/* --- mobile nav panel --- */
+.nav{
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  display:none;
+  padding:.6rem 20px 1.1rem;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 18px 32px -22px rgba(16,19,25,.3);
+}
+.nav.is-open{ display:block; }
+
+.nav__list{
+  display:flex;
+  flex-direction:column;
+}
+
+.nav__list a{
+  display:block;
+  padding:.85rem .15rem;
+  font-size:.96rem;
+  font-weight:500;
+  color:var(--text-muted);
+  text-decoration:none;
+  border-bottom:1px solid var(--border);
+  transition:color .2s ease;
+}
+.nav__list li:last-child a{ border-bottom:0; }
+.nav__list a:hover,
+.nav__list a.is-active{ color:var(--text); }
+
+@media (min-width:860px){
+  .nav-toggle{ display:none; }
+  .nav{
+    position:static;
+    display:block;
+    padding:0;
+    background:transparent;
+    border:0;
+    box-shadow:none;
+  }
+  .nav__list{
+    flex-direction:row;
+    align-items:center;
+    gap:2rem;
+  }
+  .nav__list a{
+    position:relative;
+    padding:.35rem 0;
+    font-size:.93rem;
+    border-bottom:0;
+  }
+  .nav__list a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:-1px;
+    height:2px;
+    border-radius:2px;
+    background:var(--accent);
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform .28s var(--ease);
+  }
+  .nav__list a:hover::after,
+  .nav__list a.is-active::after{ transform:scaleX(1); }
+  .nav__list a.is-active{ color:var(--text); }
+}
+
+/* ============================================================
+   7. HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  padding:74px 0 66px;
+  text-align:center;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:-160px 0 auto 0;
+  height:520px;
+  background:
+    radial-gradient(46% 54% at 50% 42%, rgba(49,87,245,.13) 0%, rgba(49,87,245,0) 72%);
+  pointer-events:none;
+}
+
+.hero__inner{ position:relative; }
+
+.hero__badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.4rem .9rem .4rem .7rem;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  box-shadow:var(--shadow-sm);
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.02em;
+  color:var(--text-muted);
+}
+.hero__badge-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.18);
+}
+
+.hero__title{
+  margin-top:1.4rem;
+  font-size:clamp(2.5rem,11vw,4.2rem);
+  line-height:1.02;
+  letter-spacing:-.035em;
+  font-weight:800;
+  color:var(--text);
+}
+
+.hero__role{
+  margin-top:.5rem;
+  font-size:clamp(1rem,3.6vw,1.2rem);
+  font-weight:600;
+  letter-spacing:.01em;
+  color:var(--accent);
+}
+
+.hero__lead{
+  max-width:540px;
+  margin:1.15rem auto 0;
+  font-size:clamp(.98rem,2.6vw,1.08rem);
+  color:var(--text-muted);
+}
+
+.hero__actions{
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  margin-top:2rem;
+  max-width:340px;
+  margin-inline:auto;
+}
+
+.hero__meta{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:.5rem;
+  margin-top:2.4rem;
+}
+.hero__meta li{
+  padding:.35rem .8rem;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--text-muted);
+}
+
+@media (min-width:640px){
+  .hero__actions{
+    flex-direction:row;
+    justify-content:center;
+    max-width:none;
+  }
+  .hero__actions .btn{ min-width:180px; }
+}
+
+@media (min-width:900px){
+  .hero{
+    padding:104px 0 92px;
+  }
+  .hero::before{
+    inset:-200px 0 auto 0;
+    height:620px;
+  }
+}
+
+/* ============================================================
+   8. ABOUT
+   ============================================================ */
+.about__grid{
+  display:grid;
+  gap:32px;
+}
+
+.about__text{
+  font-size:clamp(1.02rem,2.7vw,1.16rem);
+  line-height:1.75;
+  color:var(--text-muted);
+  max-width:620px;
+}
+.about__text strong{
+  color:var(--text);
+  font-weight:600;
+}
+
+.about__facts{
+  display:grid;
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+
+.fact{
+  background:var(--surface);
+  padding:20px 22px;
+}
+.fact__label{
+  font-size:.74rem;
+  font-weight:700;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:var(--text-soft);
+}
+.fact__value{
+  margin-top:.35rem;
+  font-size:.98rem;
+  font-weight:600;
+  color:var(--text);
+}
+
+@media (min-width:880px){
+  .about__grid{
+    grid-template-columns:1.15fr .85fr;
+    gap:56px;
+    align-items:start;
+  }
+}
+
+/* ============================================================
+   9. SKILLS
+   ============================================================ */
+.skills__grid{
+  display:grid;
+  gap:14px;
+}
+
+.skill{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  transition:border-color .24s ease, transform .24s var(--ease), box-shadow .24s ease;
+}
+.skill:hover{
+  border-color:var(--border-strong);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow);
+}
+
+.skill__top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:1rem;
+}
+
+.skill__name{
+  font-size:.98rem;
+  font-weight:600;
+  color:var(--text);
+}
+
+.skill__level{
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:.2rem .6rem;
+  border-radius:999px;
+  white-space:nowrap;
+}
+
+.skill__meter{
+  display:flex;
+  gap:5px;
+  margin-top:14px;
+}
+.skill__seg{
+  flex:1;
+  height:5px;
+  border-radius:999px;
+  background:var(--border);
+  transition:background-color .5s ease;
+}
+.skill__meter[data-level="1"] .skill__seg:nth-child(-n+1),
+.skill__meter[data-level="2"] .skill__seg:nth-child(-n+2){
+  background:var(--accent);
+}
+
+@media (min-width:640px){
+  .skills__grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (min-width:1024px){
+  .skills__grid{ grid-template-columns:repeat(3,1fr); }
+}
+
+/* ============================================================
+   10. PROJECTS
+   ============================================================ */
+.project{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  transition:transform .3s var(--ease), box-shadow .3s ease, border-color .3s ease;
+}
+.project:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-lg);
+  border-color:var(--border-strong);
+}
+
+/* --- featured --- */
+.project--featured{
+  display:grid;
+  margin-bottom:22px;
+}
+
+.project__media{
+  position:relative;
+  min-height:220px;
+  background:
+    linear-gradient(140deg,#eef2ff 0%,#e4e9fb 45%,#dfe6fb 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* --- screenshot fills the media box --- */
+.project__media img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+
+.project__body{
+  padding:26px 24px 28px;
+  display:flex;
+  flex-direction:column;
+}
+
+.tag{
+  align-self:flex-start;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:.3rem .7rem;
+  border-radius:999px;
+  margin-bottom:.9rem;
+}
+
+.project__title{
+  font-size:clamp(1.25rem,4.5vw,1.6rem);
+  line-height:1.22;
+  letter-spacing:-.02em;
+  font-weight:700;
+  color:var(--text);
+}
+
+.project__desc{
+  margin-top:.75rem;
+  color:var(--text-muted);
+  font-size:.96rem;
+  line-height:1.7;
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+  margin-top:1.15rem;
+}
+.chips li{
+  font-size:.76rem;
+  font-weight:600;
+  color:var(--text-muted);
+  padding:.28rem .7rem;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--bg-soft);
+}
+
+.project__actions{
+  margin-top:1.6rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.7rem;
+}
+
+/* --- coming soon grid --- */
+.projects__grid{
+  display:grid;
+  gap:22px;
+}
+
+.project--soon{
+  background:var(--bg-soft);
+  border-style:solid;
+  border-color:var(--border);
+}
+
+.project--soon:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+
+.project__media--muted{
+  min-height:130px;
+  background:
+    repeating-linear-gradient(135deg,#eef0f5 0 10px,#e8ebf2 10px 20px);
+}
+.project__media--muted svg{
+  width:34px;
+  height:34px;
+  color:#a9b1c1;
+  opacity:.85;
+  position:relative;
+  z-index:1;
+}
+
+.badge-soon{
+  align-self:flex-start;
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  background:#fff;
+  border:1px dashed var(--border-strong);
+  padding:.3rem .7rem;
+  border-radius:999px;
+  margin-bottom:.9rem;
+}
+.badge-soon::before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#c2c8d4;
+}
+
+.project--soon .project__body{ padding:22px 22px 24px; }
+.project--soon .project__title{ font-size:1.06rem; font-weight:650; }
+.project--soon .project__desc{
+  font-size:.9rem;
+  color:var(--text-soft);
+  margin-top:.55rem;
+}
+
+@media (min-width:760px){
+  .project--featured{
+    grid-template-columns:1.02fr 1fr;
+  }
+  .project--featured .project__media{
+    min-height:100%;
+  }
+  .project--featured .project__body{
+    padding:40px 40px 40px 34px;
+    justify-content:center;
+  }
+  .projects__grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+/* ============================================================
+   11. SERVICES
+   ============================================================ */
+.services__grid{
+  display:grid;
+  gap:14px;
+}
+
+.service{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px 22px;
+  transition:border-color .24s ease, transform .24s var(--ease), box-shadow .24s ease;
+}
+.service:hover{
+  border-color:var(--border-strong);
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+
+.service__icon{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  margin-bottom:1rem;
+}
+.service__icon svg{
+  width:21px;
+  height:21px;
+}
+
+.service__title{
+  font-size:1rem;
+  font-weight:650;
+  color:var(--text);
+  letter-spacing:-.01em;
+}
+
+.service__desc{
+  margin-top:.45rem;
+  font-size:.9rem;
+  line-height:1.65;
+  color:var(--text-muted);
+}
+
+@media (min-width:640px){
+  .services__grid{ grid-template-columns:repeat(2,1fr); gap:16px; }
+}
+@media (min-width:1024px){
+  .services__grid{ grid-template-columns:repeat(3,1fr); }
+}
+
+/* ============================================================
+   12. CONTACT
+   ============================================================ */
+.contact{
+  padding:70px 0;
+}
+
+.contact__card{
+  position:relative;
+  overflow:hidden;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:40px 24px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+
+.contact__card::before{
+  content:"";
+  position:absolute;
+  inset:-120px -60px auto -60px;
+  height:340px;
+  background:radial-gradient(50% 60% at 50% 40%, rgba(49,87,245,.12), rgba(49,87,245,0) 72%);
+  pointer-events:none;
+}
+
+.contact__inner{ position:relative; }
+
+.contact__title{
+  font-size:clamp(1.45rem,5vw,2rem);
+  line-height:1.22;
+  letter-spacing:-.025em;
+  font-weight:750;
+  color:var(--text);
+}
+
+.contact__text{
+  max-width:480px;
+  margin:1rem auto 0;
+  color:var(--text-muted);
+  font-size:.98rem;
+}
+
+.contact__actions{
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  max-width:320px;
+  margin:1.9rem auto 0;
+}
+
+.contact__note{
+  margin-top:1.2rem;
+  font-size:.82rem;
+  color:var(--text-soft);
+}
+
+@media (min-width:640px){
+  .contact__actions{
+    flex-direction:row;
+    justify-content:center;
+    max-width:none;
+  }
+  .contact__actions .btn{ min-width:190px; }
+}
+@media (min-width:768px){
+  .contact{ padding:96px 0; }
+  .contact__card{ padding:64px 56px; }
+}
+
+/* ============================================================
+   13. FOOTER
+   ============================================================ */
+.site-footer{
+  border-top:1px solid var(--border);
+  background:var(--bg-soft);
+  padding:34px 0;
+}
+
+.footer__inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.35rem;
+  text-align:center;
+}
+
+.footer__brand{
+  font-size:.98rem;
+  font-weight:700;
+  letter-spacing:-.01em;
+  color:var(--text);
+}
+
+.footer__role{
+  font-size:.85rem;
+  color:var(--text-muted);
+}
+
+.footer__copy{
+  margin-top:.5rem;
+  font-size:.8rem;
+  color:var(--text-soft);
+}
+
+@media (min-width:768px){
+  .footer__inner{
+    flex-direction:row;
+    justify-content:space-between;
+    text-align:left;
+    gap:1rem;
+  }
+  .footer__meta{
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+    font-size:.85rem;
+    color:var(--text-muted);
+  }
+  .footer__copy{ margin-top:0; }
+}
+
+/* ============================================================
+   14. SCROLL REVEAL
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .65s var(--ease), transform .65s var(--ease);
+  will-change:opacity, transform;
+}
+.reveal.is-visible{
+  opacity:1;
+  transform:none;
+}
+
+.reveal[data-delay="1"]{ transition-delay:.07s; }
+.reveal[data-delay="2"]{ transition-delay:.14s; }
+.reveal[data-delay="3"]{ transition-delay:.21s; }
+
+/* ============================================================
+   15. PREFERENCES
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,
+  *::before,
+  *::after{
+    animation-duration:.001ms !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .reveal{
+    opacity:1 !important;
+    transform:none !important;
+  }
+}
+</style>
+</head>
+
+<body id="top">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header">
+  <div class="container header__inner">
+
+    <a class="brand" href="#top">
+      Cintepide<span class="brand__dot">.</span>
+    </a>
+
+    <button
+      class="nav-toggle"
+      id="navToggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primaryNav"
+      aria-label="Open navigation menu">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+
+    <nav class="nav" id="primaryNav" aria-label="Primary">
+      <ul class="nav__list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================================================
+       1. HERO
+       ============================================================ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero__inner">
+
+      <span class="hero__badge">
+        <span class="hero__badge-dot" aria-hidden="true"></span>
+        Beginner Web Developer
+      </span>
+
+      <h1 class="hero__title" id="hero-title">Cintepide</h1>
+
+      <p class="hero__role">Web Developer</p>
+
+      <p class="hero__lead">
+        I build clean, modern and responsive websites using HTML, CSS and JavaScript.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#projects">
+          View My Work
+          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+        </a>
+        <a class="btn btn--ghost" href="#contact">Contact Me</a>
+      </div>
+
+      <ul class="hero__meta">
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>Responsive Design</li>
+        <li>Bug Fixing</li>
+      </ul>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       2. ABOUT
+       ============================================================ -->
+  <section class="section section--soft" id="about" aria-labelledby="about-title">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <p class="section-head__eyebrow">About</p>
+        <h2 class="section-head__title" id="about-title">A little about me</h2>
+      </div>
+
+      <div class="about__grid">
+
+        <p class="about__text reveal">
+          I enjoy turning ideas into <strong>clean, modern, and functional websites</strong>.
+          I work with HTML, CSS, and JavaScript, creating landing pages, small websites,
+          interactive elements, and fixing bugs in existing projects.
+        </p>
+
+        <div class="about__facts reveal" data-delay="1">
+          <div class="fact">
+            <p class="fact__label">Focus</p>
+            <p class="fact__value">Front-end &amp; responsive layout</p>
+          </div>
+          <div class="fact">
+            <p class="fact__label">Stack</p>
+            <p class="fact__value">HTML · CSS · JavaScript</p>
+          </div>
+          <div class="fact">
+            <p class="fact__label">Level</p>
+            <p class="fact__value">Actively improving</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. SKILLS
+       ============================================================ -->
+  <section class="section" id="skills" aria-labelledby="skills-title">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <p class="section-head__eyebrow">Skills</p>
+        <h2 class="section-head__title" id="skills-title">What I work with</h2>
+        <p class="section-head__text">
+          Honest levels — no fake percentages, just what I can actually do right now.
+        </p>
+      </div>
+
+      <div class="skills__grid">
+
+        <article class="skill reveal">
+          <div class="skill__top">
+            <h3 class="skill__name">HTML</h3>
+            <span class="skill__level">Intermediate</span>
+          </div>
+          <div class="skill__meter" data-level="2" role="img" aria-label="HTML level: Intermediate">
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+          </div>
+        </article>
+
+        <article class="skill reveal" data-delay="1">
+          <div class="skill__top">
+            <h3 class="skill__name">CSS</h3>
+            <span class="skill__level">Intermediate</span>
+          </div>
+          <div class="skill__meter" data-level="2" role="img" aria-label="CSS level: Intermediate">
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+          </div>
+        </article>
+
+        <article class="skill reveal" data-delay="2">
+          <div class="skill__top">
+            <h3 class="skill__name">JavaScript</h3>
+            <span class="skill__level">Beginner</span>
+          </div>
+          <div class="skill__meter" data-level="1" role="img" aria-label="JavaScript level: Beginner">
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+          </div>
+        </article>
+
+        <article class="skill reveal">
+          <div class="skill__top">
+            <h3 class="skill__name">Web Development</h3>
+            <span class="skill__level">Beginner</span>
+          </div>
+          <div class="skill__meter" data-level="1" role="img" aria-label="Web Development level: Beginner">
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+          </div>
+        </article>
+
+        <article class="skill reveal" data-delay="1">
+          <div class="skill__top">
+            <h3 class="skill__name">Front-end Web Development</h3>
+            <span class="skill__level">Beginner</span>
+          </div>
+          <div class="skill__meter" data-level="1" role="img" aria-label="Front-end Web Development level: Beginner">
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+          </div>
+        </article>
+
+        <article class="skill reveal" data-delay="2">
+          <div class="skill__top">
+            <h3 class="skill__name">Responsive Design</h3>
+            <span class="skill__level">Beginner</span>
+          </div>
+          <div class="skill__meter" data-level="1" role="img" aria-label="Responsive Design level: Beginner">
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+          </div>
+        </article>
+
+        <article class="skill reveal">
+          <div class="skill__top">
+            <h3 class="skill__name">Web Bug Fixing</h3>
+            <span class="skill__level">Beginner</span>
+          </div>
+          <div class="skill__meter" data-level="1" role="img" aria-label="Web Bug Fixing level: Beginner">
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+            <span class="skill__seg"></span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       4. PROJECTS
+       ============================================================ -->
+  <section class="section section--soft" id="projects" aria-labelledby="projects-title">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <p class="section-head__eyebrow">Projects</p>
+        <h2 class="section-head__title" id="projects-title">Things I have built</h2>
+        <p class="section-head__text">
+          Real work only. Everything else is clearly marked as upcoming.
+        </p>
+      </div>
+
+      <!-- ---------- Featured project ---------- -->
+      <article class="project project--featured reveal">
+
+        <div class="project__media">
+          <!--
+            Замени путь на свой скриншот «Комнаты Судеб».
+            Положи файл рядом с index.html в папку images/.
+            Размер рекомендуется ~1200×800 px, формат PNG или WEBP.
+          -->
+          <img src="images/komnata-sudeb.png"
+               alt="Комната Судеб — interactive visual novel and research game"
+               width="1200"
+               height="800"
+               loading="lazy"
+               decoding="async">
+        </div>
+
+        <div class="project__body">
+          <span class="tag">Featured Project</span>
+
+          <h3 class="project__title">Комната Судеб</h3>
+
+          <p class="project__desc">
+            An interactive browser-based visual novel and research game built with HTML, CSS
+            and JavaScript. Players make decisions in several fictional cases, while the
+            program records how decisions change after additional context is revealed.
+          </p>
+
+          <ul class="chips">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>Interactive UI</li>
+          </ul>
+
+          <div class="project__actions">
+            <a class="btn btn--primary"
+               href="https://komnata-sudeb.komnatasudebsyltaan.workers.dev"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Open the live demo of Комната Судеб in a new tab">
+              Live Demo
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 4h6v6"/>
+                <path d="M20 4 10 14"/>
+                <path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </article>
+
+      <!-- ---------- Upcoming projects ---------- -->
+      <div class="projects__grid">
+
+        <article class="project project--soon reveal">
+          <div class="project__media project__media--muted" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="16" rx="2"/>
+              <path d="M3 9h18"/>
+              <path d="M8 13h8"/>
+              <path d="M8 16.5h5"/>
+            </svg>
+          </div>
+          <div class="project__body">
+            <span class="badge-soon">Concept · Coming Soon</span>
+            <h3 class="project__title">Landing Page Concept</h3>
+            <p class="project__desc">
+              A single-page product landing page concept, focused on clean typography and layout.
+            </p>
+          </div>
+        </article>
+
+        <article class="project project--soon reveal" data-delay="1">
+          <div class="project__media project__media--muted" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="13" height="10" rx="1.6"/>
+              <path d="M2 17h13"/>
+              <rect x="17" y="8" width="5" height="10" rx="1.4"/>
+            </svg>
+          </div>
+          <div class="project__body">
+            <span class="badge-soon">Concept · Coming Soon</span>
+            <h3 class="project__title">Responsive Layout Study</h3>
+            <p class="project__desc">
+              A small multi-section page concept, built to practise mobile-first responsive layout.
+            </p>
+          </div>
+        </article>
+
+        <article class="project project--soon reveal" data-delay="2">
+          <div class="project__media project__media--muted" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 3 5 13h5l-1 8 8-10h-5l1-8Z"/>
+            </svg>
+          </div>
+          <div class="project__body">
+            <span class="badge-soon">Concept · Coming Soon</span>
+            <h3 class="project__title">JavaScript Mini App</h3>
+            <p class="project__desc">
+              A small interactive tool idea, built with plain JavaScript — no frameworks.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       5. SERVICES
+       ============================================================ -->
+  <section class="section" id="services" aria-labelledby="services-title">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <p class="section-head__eyebrow">Services</p>
+        <h2 class="section-head__title" id="services-title">How I can help</h2>
+        <p class="section-head__text">
+          Small, focused tasks done well — front-end only, no backend or complex systems.
+        </p>
+      </div>
+
+      <div class="services__grid">
+
+        <article class="service reveal">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="16" rx="2"/>
+              <path d="M3 9h18"/>
+              <path d="M8 13h8"/>
+              <path d="M8 16.5h5"/>
+            </svg>
+          </div>
+          <h3 class="service__title">Simple Landing Pages</h3>
+          <p class="service__desc">
+            A clean one-page layout for your product, service or personal project.
+          </p>
+        </article>
+
+        <article class="service reveal" data-delay="1">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="13" height="10" rx="1.6"/>
+              <path d="M2 17h13"/>
+              <rect x="17" y="8" width="5" height="10" rx="1.4"/>
+            </svg>
+          </div>
+          <h3 class="service__title">Responsive Websites</h3>
+          <p class="service__desc">
+            Layouts that look right on phones, tablets and desktop screens.
+          </p>
+        </article>
+
+        <article class="service reveal" data-delay="2">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 7 4 12l5 5"/>
+              <path d="m15 7 5 5-5 5"/>
+            </svg>
+          </div>
+          <h3 class="service__title">HTML/CSS Fixes</h3>
+          <p class="service__desc">
+            Broken layout, spacing or alignment issues — I will find and fix them.
+          </p>
+        </article>
+
+        <article class="service reveal">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 3 5 13h5l-1 8 8-10h-5l1-8Z"/>
+            </svg>
+          </div>
+          <h3 class="service__title">JavaScript Fixes</h3>
+          <p class="service__desc">
+            Small bugs in existing scripts: buttons, menus, toggles, simple interactions.
+          </p>
+        </article>
+
+        <article class="service reveal" data-delay="1">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 6h16"/>
+              <path d="M4 12h16"/>
+              <path d="M4 18h16"/>
+              <circle cx="9" cy="6" r="2"/>
+              <circle cx="15" cy="12" r="2"/>
+              <circle cx="8" cy="18" r="2"/>
+            </svg>
+          </div>
+          <h3 class="service__title">Small Website Improvements</h3>
+          <p class="service__desc">
+            Small tweaks, spacing adjustments, minor UI polish and clean-up of your page.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       6. CONTACT
+       ============================================================ -->
+  <section class="section--soft contact" id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="contact__card reveal">
+        <div class="contact__inner">
+
+          <h2 class="contact__title" id="contact-title">Have a small project in mind?</h2>
+
+          <p class="contact__text">
+            If you need a simple landing page, a responsive layout, or a quick fix in your
+            existing code — send me a message and I will tell you honestly what I can do.
+          </p>
+
+          <div class="contact__actions">
+            <a class="btn btn--primary"
+               href="https://www.fiverr.com/cintepide"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Contact Cintepide on Fiverr (opens in a new tab)">
+              Contact Me on Fiverr
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 4h6v6"/>
+                <path d="M20 4 10 14"/>
+                <path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>
+              </svg>
+            </a>
+            <a class="btn btn--ghost" href="#projects">See My Projects</a>
+          </div>
+
+          <p class="contact__note">Feel free to reach out about a small project or website fix.</p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container footer__inner">
+    <p class="footer__brand">Cintepide</p>
+    <div class="footer__meta">
+      <span class="footer__role">Web Developer</span>
+    </div>
+    <p class="footer__copy">© 2026</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ==========================================================
+     1. MOBILE NAVIGATION
+     ========================================================== */
+  var navToggle = document.getElementById('navToggle');
+  var nav = document.getElementById('primaryNav');
+
+  function openNav() {
+    nav.classList.add('is-open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    navToggle.setAttribute('aria-label', 'Close navigation menu');
+  }
+
+  function closeNav() {
+    if (!nav.classList.contains('is-open')) return;
+    nav.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open navigation menu');
+  }
+
+  if (navToggle && nav) {
+    navToggle.addEventListener('click', function () {
+      if (nav.classList.contains('is-open')) {
+        closeNav();
+      } else {
+        openNav();
+      }
+    });
+
+    /* закрыть после клика по ссылке */
+    nav.addEventListener('click', function (event) {
+      if (event.target.closest('a')) closeNav();
+    });
+
+    /* закрыть по Escape */
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeNav();
+    });
+
+    /* закрыть при переходе на десктоп */
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= 860) closeNav();
+    });
+  }
+
+  /* ==========================================================
+     2. SCROLL REVEAL
+     ========================================================== */
+  var revealItems = document.querySelectorAll('.reveal');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var supportsIO = 'IntersectionObserver' in window;
+
+  if (reduceMotion || !supportsIO) {
+    Array.prototype.forEach.call(revealItems, function (el) {
+      el.classList.add('is-visible');
+    });
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    Array.prototype.forEach.call(revealItems, function (el) {
+      revealObserver.observe(el);
+    });
+  }
+
+  /* ==========================================================
+     3. ACTIVE NAV LINK
+     ========================================================== */
+  var sections = document.querySelectorAll('main section[id]');
+  var navLinks = document.querySelectorAll('.nav__list a[href^="#"]');
+
+  function setActiveLink(id) {
+    Array.prototype.forEach.call(navLinks, function (link) {
+      var isMatch = link.getAttribute('href') === '#' + id;
+      link.classList.toggle('is-active', isMatch);
+      if (isMatch) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  if (supportsIO && sections.length && navLinks.length) {
+    var spyObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setActiveLink(entry.target.id);
+      });
+    }, {
+      rootMargin: '-45% 0px -50% 0px',
+      threshold: 0
+    });
+
+    Array.prototype.forEach.call(sections, function (section) {
+      spyObserver.observe(section);
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
