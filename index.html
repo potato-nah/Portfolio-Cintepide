@@ -1478,7 +1478,7 @@ section[id]{ scroll-margin-top:calc(var(--header-h) + 14px); }
 
           <div class="contact__actions">
             <a class="btn btn--primary"
-               href="https://www.fiverr.com/cintepide"
+               href="https://www.fiverr.com/cintepide/buying"
                target="_blank"
                rel="noopener noreferrer"
                aria-label="Contact Cintepide on Fiverr (opens in a new tab)">
@@ -1502,9 +1502,7 @@ section[id]{ scroll-margin-top:calc(var(--header-h) + 14px); }
 
 </main>
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
+
 <footer class="site-footer">
   <div class="container footer__inner">
     <p class="footer__brand">Cintepide</p>
@@ -1519,9 +1517,7 @@ section[id]{ scroll-margin-top:calc(var(--header-h) + 14px); }
 (function () {
   'use strict';
 
-  /* ==========================================================
-     1. MOBILE NAVIGATION
-     ========================================================== */
+ 
   var navToggle = document.getElementById('navToggle');
   var nav = document.getElementById('primaryNav');
 
@@ -1547,25 +1543,23 @@ section[id]{ scroll-margin-top:calc(var(--header-h) + 14px); }
       }
     });
 
-    /* закрыть после клика по ссылке */
+    
     nav.addEventListener('click', function (event) {
       if (event.target.closest('a')) closeNav();
     });
 
-    /* закрыть по Escape */
+    
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') closeNav();
     });
 
-    /* закрыть при переходе на десктоп */
+   
     window.addEventListener('resize', function () {
       if (window.innerWidth >= 860) closeNav();
     });
   }
 
-  /* ==========================================================
-     2. SCROLL REVEAL
-     ========================================================== */
+
   var revealItems = document.querySelectorAll('.reveal');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var supportsIO = 'IntersectionObserver' in window;
@@ -1592,9 +1586,7 @@ section[id]{ scroll-margin-top:calc(var(--header-h) + 14px); }
     });
   }
 
-  /* ==========================================================
-     3. ACTIVE NAV LINK
-     ========================================================== */
+  
   var sections = document.querySelectorAll('main section[id]');
   var navLinks = document.querySelectorAll('.nav__list a[href^="#"]');
 
